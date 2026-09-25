@@ -191,7 +191,7 @@ function destroyTask(task) {
                     ? 'border-[#635BFF] bg-[#635BFF] text-white shadow-sm shadow-[#635BFF]/20'
                     : 'border-[#222634] bg-[#161922] text-[#9BA1AE] hover:bg-[#1D212C] hover:text-white'"
                 :style="{ opacity: link.url ? 1 : 0.3, pointerEvents: link.url ? 'auto' : 'none' }"
-                v-html="link.label" />
+                v-html="link.label.includes('Previous') || link.label.includes('&laquo;') ? 'Predchádzajúca' : (link.label.includes('Next') || link.label.includes('&raquo;') ? 'Nasledujúca' : link.label)" />
         </div>
     </AppLayout>
 </template>
