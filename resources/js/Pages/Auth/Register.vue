@@ -27,7 +27,8 @@ function submit() {
                     <label class="mb-1.5 block text-xs font-medium text-[#9BA1AE]">Celé meno</label>
                     <input v-model="form.name" type="text" placeholder="Ján Mrkvička"
                         class="w-full rounded-lg border border-[#222634] bg-[#0F1117] px-3.5 py-2.5 text-sm text-white placeholder:text-[#9BA1AE]/40 focus:border-[#635BFF] focus:ring-1 focus:ring-[#635BFF] focus:outline-none transition-all">
-                    <div v-if="form.errors.name" class="mt-1.5 text-xs text-red-400 font-medium">{{ form.errors.name }}
+                    <div v-if="form.errors.name" class="mt-1.5 text-xs text-red-400 font-medium">
+                        {{ form.errors.name }}
                     </div>
                 </div>
 
@@ -35,22 +36,27 @@ function submit() {
                     <label class="mb-1.5 block text-xs font-medium text-[#9BA1AE]">E-mailová adresa</label>
                     <input v-model="form.email" type="email" placeholder="jan.mrkvicka@example.com"
                         class="w-full rounded-lg border border-[#222634] bg-[#0F1117] px-3.5 py-2.5 text-sm text-white placeholder:text-[#9BA1AE]/40 focus:border-[#635BFF] focus:ring-1 focus:ring-[#635BFF] focus:outline-none transition-all">
-                    <div v-if="form.errors.email" class="mt-1.5 text-xs text-red-400 font-medium">{{ form.errors.email
-                        }}</div>
+                    <div v-if="form.errors.email" class="mt-1.5 text-xs text-red-400 font-medium">
+                        {{ form.errors.email }}
+                    </div>
                 </div>
 
                 <div>
                     <label class="mb-1.5 block text-xs font-medium text-[#9BA1AE]">Heslo</label>
                     <input v-model="form.password" type="password" placeholder="••••••••"
                         class="w-full rounded-lg border border-[#222634] bg-[#0F1117] px-3.5 py-2.5 text-sm text-white placeholder:text-[#9BA1AE]/40 focus:border-[#635BFF] focus:ring-1 focus:ring-[#635BFF] focus:outline-none transition-all">
-                    <div v-if="form.errors.password" class="mt-1.5 text-xs text-red-400 font-medium">{{
-                        form.errors.password }}</div>
                 </div>
 
                 <div>
                     <label class="mb-1.5 block text-xs font-medium text-[#9BA1AE]">Zopakovať heslo</label>
                     <input v-model="form.password_confirmation" type="password" placeholder="••••••••"
                         class="w-full rounded-lg border border-[#222634] bg-[#0F1117] px-3.5 py-2.5 text-sm text-white placeholder:text-[#9BA1AE]/40 focus:border-[#635BFF] focus:ring-1 focus:ring-[#635BFF] focus:outline-none transition-all">
+                    <div v-if="form.errors.password" class="mt-1.5 text-xs text-red-400 font-medium">
+                        {{ form.errors.password }}
+                    </div>
+                    <div v-if="form.errors.password_confirmation" class="mt-1.5 text-xs text-red-400 font-medium">
+                        {{ form.errors.password_confirmation }}
+                    </div>
                 </div>
 
                 <button type="submit" :disabled="form.processing"
