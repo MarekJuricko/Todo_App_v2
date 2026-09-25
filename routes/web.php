@@ -2,8 +2,8 @@
 
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
+use App\Http\Controllers\TaskController;
 use Illuminate\Support\Facades\Route;
-use Inertia\Inertia;
 
 Route::middleware('guest')->group(function () {
     Route::get('register', [RegisterController::class, 'create'])->name('register');
@@ -16,7 +16,5 @@ Route::middleware('guest')->group(function () {
 Route::middleware('auth')->group(function () {
     Route::post('logout', [LoginController::class, 'destroy'])->name('logout');
 
-    Route::get('/', function () {
-        return Inertia::render('Welcome', ['message' => 'Prihlásený!']);
-    })->name('tasks.index'); // dočasne, nahradíme v kroku 9c
+    Route::get('/', [TaskController::class, 'index'])->name('tasks.index');
 });
