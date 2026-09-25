@@ -1,13 +1,44 @@
 <script setup>
-import { ref } from 'vue';
+import { ref, watch } from 'vue';
 import { Link, useForm, router } from '@inertiajs/vue3';
 import AppLayout from '@/Layouts/AppLayout.vue';
 
-defineProps({
+const props = defineProps({
     tasks: Object,
     tags: Array,
     filters: Object,
 });
+
+// --- Filtre a vyhľadávanie ---
+const search = ref(props.filters.search ?? '');
+const status = ref(props.filters.status ?? '');
+const tag = ref(props.filters.tag ?? '');
+let searchTimeout = null;
+
+function applyFilters() {
+    router.get('/', {
+        search: search.value || undefined,
+        status: status.value || undefined,
+        tag: tag.value || undefined,
+    }, {
+        preserveState: true,
+        preserveScroll: true,
+        replace: true,
+    });
+}
+
+watch(search, () => {
+    clearTimeout(searchTimeout);
+    searchTimeout = setTimeout(applyFilters, 400);
+});
+
+watch([status, tag], applyFilters);
+
+function clearFilters() {
+    search.value = '';
+    status.value = '';
+    tag.value = '';
+}
 
 // --- Create new task ---
 const showCreateForm = ref(false);
@@ -100,6 +131,27 @@ function detachTag(task, tag) {
             </button>
         </div>
 
+        <!-- Filters Bar -->
+        <div class="mb-6 flex flex-wrap items-center gap-2">
+            <input v-model="search" type="text" placeholder="Hľadať v názve alebo popise..."
+                class="flex-1 min-w-[200px] rounded-lg border border-[#222634] bg-[#161922] px-3.5 py-2 text-sm text-white placeholder:text-[#9BA1AE]/40 focus:border-[#635BFF] focus:ring-1 focus:ring-[#635BFF] focus:outline-none transition-all">
+            <select v-model="status"
+                class="rounded-lg border border-[#222634] bg-[#161922] px-3 py-2 text-sm text-white focus:border-[#635BFF] focus:ring-1 focus:ring-[#635BFF] focus:outline-none transition-all">
+                <option value="">Všetky stavy</option>
+                <option value="pending">Rozpracované</option>
+                <option value="completed">Dokončené</option>
+            </select>
+            <select v-model="tag"
+                class="rounded-lg border border-[#222634] bg-[#161922] px-3 py-2 text-sm text-white focus:border-[#635BFF] focus:ring-1 focus:ring-[#635BFF] focus:outline-none transition-all">
+                <option value="">Všetky tagy</option>
+                <option v-for="t in tags" :key="t.id" :value="t.id">{{ t.name }}</option>
+            </select>
+            <button v-if="search || status || tag" @click="clearFilters" type="button"
+                class="rounded-lg px-3 py-2 text-sm text-[#9BA1AE] hover:bg-[#1D212C] hover:text-white transition-colors cursor-pointer">
+                Zrušiť filtre
+            </button>
+        </div>
+
         <!-- Create form -->
         <div v-if="showCreateForm" class="mb-6 rounded-xl border border-[#222634] bg-[#161922] p-4 shadow-lg">
             <form @submit.prevent="submitCreate" class="space-y-3">
@@ -133,8 +185,12 @@ function detachTag(task, tag) {
                         d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012-2m-6 9l2 2 4-4" />
                 </svg>
             </div>
-            <h3 class="text-sm font-medium text-white">Zatiaľ žiadne úlohy</h3>
-            <p class="text-xs text-[#9BA1AE] mt-1">Vytvorte si svoju prvú úlohu a začnite pracovať.</p>
+            <h3 class="text-sm font-medium text-white">
+                {{ search || status || tag ? 'Žiadne úlohy nezodpovedajú filtru' : 'Zatiaľ žiadne úlohy' }}
+            </h3>
+            <p class="text-xs text-[#9BA1AE] mt-1">
+                {{ search || status || tag ? 'Skús zmeniť alebo zrušiť filter.' : 'Vytvorte si svoju prvú úlohu a začnite pracovať.' }}
+            </p>
         </div>
 
         <!-- Task List Items -->
