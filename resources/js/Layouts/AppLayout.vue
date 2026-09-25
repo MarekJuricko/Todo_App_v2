@@ -14,10 +14,14 @@ function logout() {
         <header class="border-b border-[#222634] bg-[#0F1117]/80 backdrop-blur-md sticky top-0 z-30">
             <div class="mx-auto flex max-w-3xl items-center justify-between px-6 py-4">
                 <Link href="/"
-                    class="flex items-center gap-2 font-semibold tracking-tight text-white hover:opacity-80 transition-opacity">
-                    <span
-                        class="flex h-6 w-6 items-center justify-center rounded-md bg-[#635BFF] text-white text-xs font-bold shadow-sm shadow-[#635BFF]/30">T</span>
-                    <span>ToDo</span>
+                    class="group flex items-center gap-2.5 font-medium tracking-tight text-white transition-opacity">
+                    <!-- Modern SaaS Logo: Minimalist shape with subtle glow -->
+                    <div
+                        class="relative flex h-6 w-6 items-center justify-center rounded-md bg-[#635BFF]/10 border border-[#635BFF]/30 text-[#635BFF] shadow-[0_0_12px_rgba(99,91,255,0.2)] group-hover:border-[#635BFF] transition-colors">
+                        <div class="h-2 w-2 rounded-xs bg-[#635BFF]"></div>
+                    </div>
+                    <span class="text-sm font-semibold tracking-wide text-white">To<span
+                            class="text-[#635BFF]">Do</span></span>
                 </Link>
 
                 <div v-if="page.props.auth.user" class="flex items-center gap-4">
