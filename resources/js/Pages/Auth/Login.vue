@@ -12,27 +12,40 @@ function submit() {
 </script>
 
 <template>
-    <div style="max-width: 320px; margin: 4rem auto; font-family: sans-serif;">
-        <h1>Prihlásenie</h1>
-
-        <form @submit.prevent="submit">
-            <div>
-                <label>E-mail</label>
-                <input v-model="form.email" type="email" style="width: 100%; margin-bottom: 1rem;">
-                <div v-if="form.errors.email" style="color: red; margin-bottom: 1rem;">{{ form.errors.email }}</div>
+    <div class="flex min-h-screen items-center justify-center bg-[#0F1117] px-4">
+        <div
+            class="w-full max-w-[400px] rounded-2xl border border-[#222634] bg-[#161922] p-8 shadow-[0_8px_30px_rgb(0,0,0,0.4)]">
+            <div class="mb-8">
+                <h1 class="text-xl font-semibold tracking-tight text-white">Vitajte späť</h1>
+                <p class="text-sm text-[#9BA1AE] mt-1">Zadajte svoje údaje pre prístup do účtu.</p>
             </div>
 
-            <div>
-                <label>Heslo</label>
-                <input v-model="form.password" type="password" style="width: 100%; margin-bottom: 1rem;">
-            </div>
+            <form @submit.prevent="submit" class="space-y-4">
+                <div>
+                    <label class="mb-1.5 block text-xs font-medium text-[#9BA1AE]">E-mailová adresa</label>
+                    <input v-model="form.email" type="email" placeholder="jan.mrkvicka@example.com"
+                        class="w-full rounded-lg border border-[#222634] bg-[#0F1117] px-3.5 py-2.5 text-sm text-white placeholder:text-[#9BA1AE]/40 focus:border-[#635BFF] focus:ring-1 focus:ring-[#635BFF] focus:outline-none transition-all">
+                    <div v-if="form.errors.email" class="mt-1.5 text-xs text-red-400 font-medium">{{ form.errors.email
+                        }}</div>
+                </div>
 
-            <button type="submit" :disabled="form.processing" style="width: 100%; padding: 0.5rem;">Prihlásiť
-                sa</button>
-        </form>
+                <div>
+                    <label class="mb-1.5 block text-xs font-medium text-[#9BA1AE]">Heslo</label>
+                    <input v-model="form.password" type="password" placeholder="••••••••"
+                        class="w-full rounded-lg border border-[#222634] bg-[#0F1117] px-3.5 py-2.5 text-sm text-white placeholder:text-[#9BA1AE]/40 focus:border-[#635BFF] focus:ring-1 focus:ring-[#635BFF] focus:outline-none transition-all">
+                </div>
 
-        <p style="margin-top: 1rem;">
-            <Link href="/register">Nemáš účet? Zaregistruj sa</Link>
-        </p>
+                <button type="submit" :disabled="form.processing"
+                    class="w-full mt-2 inline-flex items-center justify-center rounded-lg bg-[#635BFF] px-4 py-2.5 text-sm font-medium text-white shadow-lg shadow-[#635BFF]/20 hover:bg-[#5146E5] focus:outline-none focus:ring-2 focus:ring-[#635BFF]/30 disabled:opacity-50 transition-all cursor-pointer">
+                    Prihlásiť sa
+                </button>
+            </form>
+
+            <p class="mt-6 text-center text-xs text-[#9BA1AE]">
+                Nemáte ešte účet?
+                <Link href="/register" class="font-medium text-white underline hover:text-[#635BFF] transition-colors">
+                    Zaregistrujte sa</Link>
+            </p>
+        </div>
     </div>
 </template>
