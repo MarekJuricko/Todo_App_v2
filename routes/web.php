@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\TagController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\TaskController;
@@ -21,4 +22,7 @@ Route::middleware('auth')->group(function () {
     Route::put('tasks/{task}', [TaskController::class, 'update'])->name('tasks.update');
     Route::delete('tasks/{task}', [TaskController::class, 'destroy'])->name('tasks.destroy');
     Route::patch('tasks/{task}/complete', [TaskController::class, 'complete'])->name('tasks.complete');
+
+    Route::post('tasks/{task}/tags', [TagController::class, 'attach'])->name('tags.attach');
+    Route::delete('tasks/{task}/tags/{tag}', [TagController::class, 'detach'])->name('tags.detach');
 });

@@ -64,6 +64,25 @@ function destroyTask(task) {
         router.delete(`/tasks/${task.id}`, { preserveScroll: true });
     }
 }
+
+// --- Tags ---
+const tagInputs = ref({}); // { [taskId]: 'text' }
+
+function attachTag(task) {
+    const name = (tagInputs.value[task.id] ?? '').trim();
+    if (!name) return;
+
+    router.post(`/tasks/${task.id}/tags`, { name }, {
+        preserveScroll: true,
+        onSuccess: () => {
+            tagInputs.value[task.id] = '';
+        },
+    });
+}
+
+function detachTag(task, tag) {
+    router.delete(`/tasks/${task.id}/tags/${tag.id}`, { preserveScroll: true });
+}
 </script>
 
 <template>
@@ -153,19 +172,30 @@ function destroyTask(task) {
                         </button>
 
                         <div>
-                            <strong class="text-sm font-medium text-white block"
-                                :class="{ 'text-[#9BA1AE] line-through font-normal': task.is_completed }">
+                            <h3 class="text-sm font-medium transition-colors"
+                                :class="task.is_completed ? 'text-[#9BA1AE] line-through' : 'text-white'">
                                 {{ task.title }}
-                            </strong>
-                            <p v-if="task.description" class="mt-1 text-xs text-[#9BA1AE] leading-relaxed">
+                            </h3>
+                            <p v-if="task.description" class="text-xs text-[#9BA1AE] mt-0.5">
                                 {{ task.description }}
                             </p>
 
-                            <div v-if="task.tags.length" class="mt-2.5 flex flex-wrap gap-1.5">
+                            <!-- Tags -->
+                            <div class="mt-2.5 flex flex-wrap items-center gap-1.5">
                                 <span v-for="tag in task.tags" :key="tag.id"
-                                    class="inline-flex items-center rounded-md bg-[#1D212C] px-2.5 py-0.5 text-[11px] font-medium text-[#9BA1AE]">
+                                    class="group/tag inline-flex items-center gap-1 rounded-md bg-[#1D212C] px-2.5 py-0.5 text-[11px] font-medium text-[#9BA1AE]">
                                     {{ tag.name }}
+                                    <button @click="detachTag(task, tag)" type="button"
+                                        class="text-[#9BA1AE] hover:text-red-400 transition-colors cursor-pointer"
+                                        aria-label="Odobrať tag">
+                                        ×
+                                    </button>
                                 </span>
+
+                                <form @submit.prevent="attachTag(task)" class="inline-flex items-center">
+                                    <input v-model="tagInputs[task.id]" type="text" placeholder="+ tag"
+                                        class="w-16 rounded-md border border-transparent bg-transparent px-1.5 py-0.5 text-[11px] text-[#9BA1AE] placeholder:text-[#9BA1AE]/50 hover:border-[#222634] focus:w-24 focus:border-[#635BFF] focus:bg-[#0F1117] focus:text-white focus:outline-none transition-all">
+                                </form>
                             </div>
                         </div>
                     </div>
