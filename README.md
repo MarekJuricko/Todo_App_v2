@@ -127,7 +127,3 @@ routes/api.php              API routes
 routes/web.php              Web routes
 tests/Feature/              Pest tests
 ```
-
-## License
-
-Open-sourced under the [MIT license](https://opensource.org/licenses/MIT).
